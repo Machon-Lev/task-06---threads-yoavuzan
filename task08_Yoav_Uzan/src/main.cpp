@@ -3,18 +3,8 @@
 #include <mutex>
 #include <condition_variable>
 #include <queue>
-
+#include "message.h"
 using namespace std;
-
-
-struct Message
-{
-	thread::id tid;
-	double value=0;
-	bool finished=false;
-};
-
-
 mutex m;
 condition_variable cv;
 std::queue<Message> messages;
@@ -79,21 +69,21 @@ void consumer()
 
 int main()
 {
-try
-{
-	thread t3(consumer);
-	thread t1(producer);
-	thread t2(producer);
+	try
+	{
+		thread t3(consumer);
+		thread t1(producer);
+		thread t2(producer);
 	
 
-	t1.join();
-	t2.join();
-	t3.join();
-}
-catch (const exception& e)
-{
-	cout << e.what() << endl;
-	return 1;
-}
-	return 0;
+		t1.join();
+		t2.join();
+		t3.join();
+	}
+	catch (const exception& e)
+	{
+		cout << e.what() << endl;
+		return 1;
+	}
+		return 0;
 }
